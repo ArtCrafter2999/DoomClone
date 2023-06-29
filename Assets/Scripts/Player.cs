@@ -1,9 +1,8 @@
-using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public static Player Instance = null;
     public HasHealth health;
     
     [Header("Sound")] 
@@ -30,9 +29,10 @@ public class Player : MonoBehaviour
     private bool isOnGround => Physics.CheckSphere(groundPoint.position, groundPointSize, groundLayer);
 
     [Header("Shoot")] 
-    [SerializeField] private GameObject shootPoint;
+    [SerializeField] private GameObject bulletHole;
     [SerializeField] private Animator shotgunAnimator;
     [SerializeField] private float reloadSpeed = 5.6f;
+    
     private float _reloadCoolDown = 0;
     
     private Rigidbody _rigidbody;
@@ -40,15 +40,6 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-        
         DontDestroyOnLoad(gameObject);
     }
 
@@ -94,6 +85,7 @@ public class Player : MonoBehaviour
         var mouseY = Input.GetAxis("Mouse Y") * sensitivity;
 
         _xRotation -= mouseY;
+        _xRotation = Mathf.Clamp(_xRotation, -90, 90);
         
         transform.Rotate(Vector3.up * mouseX);
         cameraObject.transform.localRotation = Quaternion.Euler(_xRotation, 0, 0);
@@ -111,15 +103,20 @@ public class Player : MonoBehaviour
         source.PlayOneShot(shootClip);
         shotgunAnimator.SetTrigger("Shoot");
         _reloadCoolDown = reloadSpeed;
-        
-        var ray = _camera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
-        if (!Physics.Raycast(ray, out var hit)) return;
-            
-        print(hit.transform.name);
-        shootPoint.transform.position = hit.point;
 
-        if (!hit.transform.TryGetComponent<HasHealth>(out var health)) return;
-        health.TakeDamage(1);
+        var raysAmount = Random.Range(5, 7);
+        for (int i = 0; i < raysAmount; i++)
+        {
+            var ray = _camera.ViewportPointToRay(new Vector3(0.5f + Random.Range(-10, 10) * 0.01f, 0.5f, 0));
+            if (!Physics.Raycast(ray, out var hit)) continue;
+
+            if (!hit.transform.TryGetComponent<Rigidbody>(out _))
+            {
+                Instantiate(bulletHole, hit.point + hit.normal * 0.01f, Quaternion.FromToRotation(Vector3.up, hit.normal));
+            }
+            if (!hit.transform.TryGetComponent<HasHealth>(out var health)) continue;
+            health.TakeDamage(1);
+        }
     }
 
     private void OnDrawGizmos()

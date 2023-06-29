@@ -8,6 +8,7 @@ public class HasHealth : MonoBehaviour
     public float maxHealth;
     public float health;
 
+    public UnityEvent<float> healthChanged;
     public UnityEvent<float> damaged;
     public UnityEvent<float> healed;
     public UnityEvent<GameObject> dead;
@@ -21,6 +22,7 @@ public class HasHealth : MonoBehaviour
     {
         if(!enabled) return;
         health -= damage;
+        healthChanged.Invoke(-damage);
         damaged.Invoke(damage);
         Clamp();
         if(health <= 0) dead.Invoke(gameObject);
@@ -30,6 +32,7 @@ public class HasHealth : MonoBehaviour
     {
         if(!enabled) return;
         health += heal;
+        healthChanged.Invoke(heal);
         healed.Invoke(heal);
         Clamp();
     }
