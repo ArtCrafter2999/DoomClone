@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,6 +17,7 @@ public class HasHealth : MonoBehaviour
     private void Clamp()
     {
         health = Mathf.Clamp(health, 0, maxHealth);
+        if(health <= 0) dead.Invoke(gameObject);
     }
 
     public virtual void TakeDamage(float damage)
@@ -25,7 +27,6 @@ public class HasHealth : MonoBehaviour
         healthChanged.Invoke(-damage);
         damaged.Invoke(damage);
         Clamp();
-        if(health <= 0) dead.Invoke(gameObject);
     }
     
     public virtual void TakeHeal(float heal)

@@ -214,13 +214,13 @@ MonoBehaviour:
   animator: {fileID: 1521290181308940175}
   invokeRange: 20
   speed: 3
-  shootRange: 7
-  shootCooldown: 2
   source: {fileID: 7407823904772963192}
   sight: {fileID: 8300000, guid: 579fe0016751a93438cb885b83fac2ca, type: 3}
-  shot: {fileID: 8300000, guid: 2197cb47367221e4c8413d9c6e2f870a, type: 3}
   damaged: {fileID: 8300000, guid: ce0c79361d230e444870af379fa98f95, type: 3}
   dead: {fileID: 8300000, guid: 0795ec9258d84c84eb4d10289600e0ec, type: 3}
+  shootRange: 7
+  shootCooldown: 2
+  shot: {fileID: 8300000, guid: 2197cb47367221e4c8413d9c6e2f870a, type: 3}
 --- !u!114 &1521290182723406124
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -233,8 +233,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0ad8a461db0b794990c6e970eb0bc9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 1
-  health: 10
+  maxHealth: 2
+  health: 2
+  healthChanged:
+    m_PersistentCalls:
+      m_Calls: []
   damaged:
     m_PersistentCalls:
       m_Calls: []

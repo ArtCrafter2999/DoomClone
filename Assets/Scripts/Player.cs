@@ -6,8 +6,8 @@ public class Player : MonoBehaviour
     public HasHealth health;
     
     [Header("Sound")] 
-    [SerializeField] private AudioSource source;
-    [SerializeField] private AudioClip shootClip;
+    public AudioSource source;
+    
     
     [Header("Camera")] 
     [SerializeField] private GameObject cameraObject;
@@ -28,12 +28,8 @@ public class Player : MonoBehaviour
     [SerializeField] private float groundPointSize = 0.5f;
     private bool isOnGround => Physics.CheckSphere(groundPoint.position, groundPointSize, groundLayer);
 
-    [Header("Shoot")] 
-    [SerializeField] private GameObject bulletHole;
-    [SerializeField] private Animator shotgunAnimator;
-    [SerializeField] private float reloadSpeed = 5.6f;
     
-    private float _reloadCoolDown = 0;
+    
     
     private Rigidbody _rigidbody;
     private Vector2 _moveInput;
@@ -57,8 +53,7 @@ public class Player : MonoBehaviour
         Jump();
         Look();
         if(Input.GetKeyDown(KeyCode.E)) Interact();
-        if (Input.GetMouseButtonDown(0) && _reloadCoolDown <= 0) Shoot();
-        _reloadCoolDown -= Time.deltaTime;
+        
 
     }
 
@@ -96,27 +91,6 @@ public class Player : MonoBehaviour
         var ray = _camera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         if (!Physics.Raycast(ray, out var hit, 1f)) return;
         hit.transform.GetComponent<Interactable>()?.Interact();
-    }
-
-    private void Shoot()
-    {
-        source.PlayOneShot(shootClip);
-        shotgunAnimator.SetTrigger("Shoot");
-        _reloadCoolDown = reloadSpeed;
-
-        var raysAmount = Random.Range(5, 7);
-        for (int i = 0; i < raysAmount; i++)
-        {
-            var ray = _camera.ViewportPointToRay(new Vector3(0.5f + Random.Range(-10, 10) * 0.01f, 0.5f, 0));
-            if (!Physics.Raycast(ray, out var hit)) continue;
-
-            if (!hit.transform.TryGetComponent<Rigidbody>(out _))
-            {
-                Instantiate(bulletHole, hit.point + hit.normal * 0.01f, Quaternion.FromToRotation(Vector3.up, hit.normal));
-            }
-            if (!hit.transform.TryGetComponent<HasHealth>(out var health)) continue;
-            health.TakeDamage(1);
-        }
     }
 
     private void OnDrawGizmos()
