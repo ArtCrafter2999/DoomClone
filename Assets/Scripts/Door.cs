@@ -12,6 +12,7 @@ public class Door : MonoBehaviour
     [SerializeField] private float duration = 1f;
     [SerializeField] private bool autoClose;
     [SerializeField] private float autoCloseTime;
+    public bool canOpen = true;
     [Header("Sound")]
     [SerializeField] private AudioSource source;
     [SerializeField] private AudioClip openClip;
@@ -32,8 +33,18 @@ public class Door : MonoBehaviour
         if(_autoCloseTime <= 0) Close();
     }
 
+    public void Activate()
+    {
+        canOpen = true;
+    }
+    public void Deactivate()
+    {
+        canOpen = false;
+    }
+
     public void Open()
     {
+        if(_isOpened|| !canOpen) return;
         if(source != null && openClip != null) source.PlayOneShot(openClip);
         door.DOMove(_endPoint, duration);
         _autoCloseTime = autoCloseTime;

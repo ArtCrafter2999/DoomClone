@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6061832611409913244}
   - component: {fileID: 4427024354978033423}
   - component: {fileID: 2442780796778764820}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -109,7 +109,7 @@ GameObject:
   - component: {fileID: 4056101468756608358}
   - component: {fileID: 4190872089895908236}
   - component: {fileID: 4624449280918545352}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -203,7 +203,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4206633629584648720}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: Stairs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -240,7 +240,7 @@ GameObject:
   - component: {fileID: 2481476511728351054}
   - component: {fileID: 4276052131815384163}
   - component: {fileID: 8653617696963766905}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}

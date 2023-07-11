@@ -28,16 +28,8 @@ public class Player : MonoBehaviour
     [SerializeField] private float groundPointSize = 0.5f;
     private bool isOnGround => Physics.CheckSphere(groundPoint.position, groundPointSize, groundLayer);
 
-    
-    
-    
     private Rigidbody _rigidbody;
     private Vector2 _moveInput;
-
-    private void Awake()
-    {
-        DontDestroyOnLoad(gameObject);
-    }
 
     private void Start()
     {
@@ -53,8 +45,6 @@ public class Player : MonoBehaviour
         Jump();
         Look();
         if(Input.GetKeyDown(KeyCode.E)) Interact();
-        
-
     }
 
     private void Move()

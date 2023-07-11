@@ -89,7 +89,7 @@ public class HoldWeapon : MonoBehaviour
     private void Attack()
     {
         if (camera == null) return;
-        if (SelectedWeapon.sound != null) source.PlayOneShot(SelectedWeapon.sound);
+        if (SelectedWeapon.sound != null && (SelectedWeapon.type != WeaponType.Chainsaw || !source.isPlaying)) source.PlayOneShot(SelectedWeapon.sound);
         animator.SetTrigger("Attack");
         _reloadCoolDown = SelectedWeapon.reloadSpeed;
         SelectedWeapon.ammo--;

@@ -33,28 +33,31 @@ public abstract class EnemyBase : MonoBehaviour
     
     public void DeathSound()
     {
+        print("dead sound");
         source.PlayOneShot(dead);
     }
     
     public void HurtSound()
     {
-        print("hurtSound");
         source.PlayOneShot(damaged);
     }
 
     protected virtual void Hurt(float damage)
     {
+        if(_health.health <= 0) return;
         animator.SetTrigger("Damaged");
         _canMove = true;
     }
     
     protected virtual void Death(GameObject _)
     {
-        animator.SetTrigger("Dead");
+        animator.SetBool("Dead", true);
         _rigidbody.isKinematic = true;
         _health.enabled = false;
         _collider.height = 0;
         _collider.center = new Vector3(0, -0.5f, 0);
+        print("dead");
+        _health.health = 0;
         // Destroy(gameObject);
     }
     
